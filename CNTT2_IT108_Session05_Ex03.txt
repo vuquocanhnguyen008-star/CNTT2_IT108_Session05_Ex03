@@ -1,0 +1,25 @@
+Bài 3 : Kiến trúc sư hạ tầng server chuyên nghiệp
+
+### 1. Danh sách câu lệnh PowerShell
+* **Bước 1: Tạo cây thư mục lồng nhau bằng 1 dòng lệnh*
+New-Item -ItemType Directory -Force -Path "smart-farm\data\logs", "smart-farm\code"
+
+* **Bước 2: Tạo cùng lúc 3 file cấu hình (`config.json`, `sensors.py`, `.env`) bằng 1 dòng lệnh**
+New-Item -ItemType File -Force -Path "smart-farm\code\config.json", "smart-farm\code\sensors.py", "smart-farm\code\.env"
+
+* **Bước 3: Sao chép toàn bộ thư mục `code` sang `backup\code_v1` (bao gồm nội dung bên trong)**
+Copy-Item -Path "smart-farm\code" -Destination "smart-farm\backup\code_v1" -Recurse -Force
+
+### 2. Sơ đồ luồng IPO (Input – Process – Output)
+* **Input (Đầu vào):**
+* Đường dẫn cây thư mục cần khởi tạo: `smart-farm\data\logs` và `smart-farm\code`.
+* Danh sách các file cấu hình cần tạo: `config.json`, `sensors.py`, `.env`.
+* Đường dẫn sao lưu mục tiêu: `smart-farm\backup\code_v1`.
+* **Process (Xử lý):**
+* **Tạo thư mục:** Gọi lệnh `New-Item -ItemType Directory` với tham số `-Force` để tự động khởi tạo đệ quy các thư mục mẹ/con.
+* **Tạo file:** Gọi lệnh `New-Item -ItemType File` truyền danh sách mảng đường dẫn file để khởi tạo hàng loạt
+* **Sao chép dữ liệu:** Gọi lệnh `Copy-Item` đi kèm cờ `-Recurse` để quét và copy toàn bộ tập tin/thư mục con từ `code` sang `backup\code_v1`.
+* **Output (Đầu ra):**
+* Thư mục `smart-farm` chứa đầy đủ cấu trúc `data\logs` và `code`.
+* 3 file cấu hình nằm trong thư mục `smart-farm\code`.
+* Thư mục `smart-farm\backup\code_v1` chứa bản sao hoàn chỉnh của `code`.
